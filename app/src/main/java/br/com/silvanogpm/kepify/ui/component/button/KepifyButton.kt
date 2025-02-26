@@ -1,4 +1,4 @@
-package br.com.silvanogpm.kepify.ui.component
+package br.com.silvanogpm.kepify.ui.component.button
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -22,8 +22,8 @@ fun KepifyButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
     text: String,
-    leftIcon: (@Composable () -> Unit)? = null,
-    rightIcon: (@Composable () -> Unit)? = null
+    leadingIcon: (@Composable () -> Unit)? = null,
+    trailingIcon: (@Composable () -> Unit)? = null
 ) {
     Button(
         onClick = onClick,
@@ -35,9 +35,9 @@ fun KepifyButton(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            leftIcon?.invoke()
+            leadingIcon?.invoke()
             Text(text = text)
-            rightIcon?.invoke()
+            trailingIcon?.invoke()
         }
     }
 }
@@ -50,20 +50,20 @@ private fun KepifyButtonPreview() {
 
 @Preview
 @Composable
-private fun KepifyButtonWithLeftIconPreview() {
+private fun KepifyButtonWithLeadingIconPreview() {
     KepifyButton(
         text = "Adicionar",
         onClick = {},
-        leftIcon = { Icon(Icons.Default.AddCircle, contentDescription = null) }
+        leadingIcon = { Icon(Icons.Default.AddCircle, contentDescription = null) }
     )
 }
 
 @Preview
 @Composable
-private fun KepifyButtonWithRightIconPreview() {
+private fun KepifyButtonWithTrailingIconPreview() {
     KepifyButton(
         text = "Confirmar",
         onClick = {},
-        rightIcon = { Icon(Icons.Default.CheckCircle, contentDescription = null) }
+        trailingIcon = { Icon(Icons.Default.CheckCircle, contentDescription = null) }
     )
 }
