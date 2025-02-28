@@ -10,6 +10,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,6 +18,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -37,6 +40,7 @@ fun BaseTextField(
     leadingIcon: FieldIconFunction = null,
     trailingIcon: FieldIconFunction = null,
     errorMessage: String? = null,
+    shape: Shape = RoundedCornerShape(8.dp),
     visualTransformation: VisualTransformation = VisualTransformation.None,
 ) {
     val focusManager = LocalFocusManager.current
@@ -72,8 +76,13 @@ fun BaseTextField(
             Text(errorMessage!!, color = MaterialTheme.colorScheme.error)
         }) else null,
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(8.dp),
-        visualTransformation = visualTransformation
+        shape = shape,
+        visualTransformation = visualTransformation,
+        colors = TextFieldDefaults.colors(
+            errorIndicatorColor = Color.Transparent,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+        ),
     )
 }
 

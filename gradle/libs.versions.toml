@@ -18,6 +18,7 @@ turbine = "1.0.0"
 kotlinSerialization = "1.7.3"
 ktorBom = "3.0.0"
 koin = "3.5.3"
+materialIconsExtended = "1.7.8"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -52,6 +53,9 @@ ktor-client-serialization-json = { group = "io.ktor", name = "ktor-serialization
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+
+# Material Theme
+material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "materialIconsExtended"}
 
 # Tests
 junit = { group = "junit", name = "junit", version.ref = "junit" }

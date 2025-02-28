@@ -3,6 +3,7 @@ package br.com.silvanogpm.kepify
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
@@ -25,7 +26,7 @@ class HomeScreenTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun should_show_empty_fields_on_initial_state() {
+    fun should_show_empty_cep_field_on_initial_state() {
         composeTestRule.setContent {
             HomeScreen(
                 onEvent = {},
@@ -33,11 +34,8 @@ class HomeScreenTest {
             )
         }
 
-        composeTestRule.onNodeWithText("CEP").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Estado").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Cidade").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Bairro").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Rua").assertIsDisplayed()
+        getCEPTextField().assertIsDisplayed()
+        getSearchButton().assertIsDisplayed()
     }
 
     @Test
@@ -49,10 +47,32 @@ class HomeScreenTest {
             )
         }
 
-        composeTestRule.onNodeWithText("Pesquisar").assertIsDisplayed()
-        composeTestRule
-            .onNodeWithText("Aconteceu um erro ao carregar o endereço!")
-            .assertIsNotDisplayed()
+        getSearchButton().assertIsDisplayed()
+        composeTestRule.onNodeWithText("Carregando informações...").assertIsDisplayed()
+
+        getErrorMessage().assertIsNotDisplayed()
+    }
+
+    @Test
+    fun should_show_reaming_screen_when_status_is_success() {
+        composeTestRule.setContent {
+            HomeScreen(
+                onEvent = {},
+                uiState = HomeUiState(
+                    status = HomeUiStateStatus.SUCCESS,
+                )
+            )
+        }
+
+        composeTestRule.onNodeWithText("Estado").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Cidade").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Bairro").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Rua").assertIsDisplayed()
+
+        getResetButton().assertIsDisplayed()
+        getShareButton().assertIsDisplayed()
+
+        getErrorMessage().assertIsNotDisplayed()
     }
 
     @Test
@@ -64,9 +84,7 @@ class HomeScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithText("Aconteceu um erro ao carregar o endereço!")
-            .assertIsDisplayed()
+        getErrorMessage().assertIsDisplayed()
     }
 
     @Test
@@ -81,10 +99,8 @@ class HomeScreenTest {
             )
         }
 
-        composeTestRule.onNodeWithText("CEP")
-            .performTextInput("12345678")
-        composeTestRule.onNodeWithText("Pesquisar")
-            .performClick()
+        getCEPTextField().performTextInput("12345678")
+        getSearchButton().performClick()
 
         verify { mockOnEvent(HomeUiEvent.OnFetchAddress("12345678")) }
         confirmVerified(mockOnEvent)
@@ -99,8 +115,7 @@ class HomeScreenTest {
             )
         }
 
-        composeTestRule.onNodeWithText("CEP")
-            .performTextInput("12345678")
+        getCEPTextField().performTextInput("12345678")
 
         composeTestRule.onNodeWithText("12345-678").assertExists()
     }
@@ -111,6 +126,7 @@ class HomeScreenTest {
             HomeScreen(
                 onEvent = {},
                 uiState = HomeUiState(
+                    status = HomeUiStateStatus.SUCCESS,
                     zipCode = "12345678",
                     state = "SP",
                     city = "São Paulo",
@@ -134,14 +150,29 @@ class HomeScreenTest {
         composeTestRule.setContent {
             HomeScreen(
                 onEvent = mockOnEvent,
-                uiState = HomeUiState()
+                uiState = HomeUiState(
+                    status = HomeUiStateStatus.SUCCESS,
+                    zipCode = "12345678",
+                    state = "SP",
+                    city = "São Paulo",
+                    neighborhood = "Centro",
+                    street = "Rua Teste"
+                )
             )
         }
 
-        composeTestRule.onNodeWithText("Resetar")
-            .performClick()
+        getResetButton().performClick()
 
         verify { mockOnEvent(HomeUiEvent.OnReset) }
         confirmVerified(mockOnEvent)
     }
+
+    private fun getCEPTextField() = composeTestRule.onNodeWithText("Insira o CEP")
+    private fun getSearchButton() = composeTestRule.onNodeWithTag("Pesquisar")
+    private fun getResetButton() = composeTestRule.onNodeWithText("Resetar")
+    private fun getShareButton() = composeTestRule.onNodeWithText("Compartilhar")
+
+    private fun getErrorMessage() =
+        composeTestRule
+            .onNodeWithText("Não foi possível carregar endereço, tente novamente.")
 }
