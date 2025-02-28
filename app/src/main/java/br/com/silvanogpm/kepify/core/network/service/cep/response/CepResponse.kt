@@ -1,7 +1,9 @@
 package br.com.silvanogpm.kepify.core.network.service.cep.response
 
 import br.com.silvanogpm.kepify.data.model.KepifyAddress
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class CepResponse(
     val cep: String,
     val logradouro: String,
