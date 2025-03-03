@@ -4,7 +4,7 @@ import br.com.silvanogpm.kepify.data.model.KepifyAddress
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CepResponse(
+data class ViaCepResponse(
     val cep: String,
     val logradouro: String,
     val complemento: String,

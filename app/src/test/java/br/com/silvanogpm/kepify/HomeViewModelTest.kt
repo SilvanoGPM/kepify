@@ -2,7 +2,7 @@ package br.com.silvanogpm.kepify
 
 import app.cash.turbine.test
 import br.com.silvanogpm.kepify.core.network.service.cep.ViaCepService
-import br.com.silvanogpm.kepify.core.network.service.cep.response.CepResponse
+import br.com.silvanogpm.kepify.core.network.service.cep.response.ViaCepResponse
 import br.com.silvanogpm.kepify.ui.screen.home.HomeUiEvent
 import br.com.silvanogpm.kepify.ui.screen.home.HomeUiState
 import br.com.silvanogpm.kepify.ui.screen.home.HomeUiStateStatus
@@ -89,7 +89,7 @@ class HomeViewModelTest {
         }
     }
 
-    private val mockAddress = CepResponse(
+    private val mockAddress = ViaCepResponse(
         cep = "00000-000",
         logradouro = "Rua A",
         bairro = "Centro",

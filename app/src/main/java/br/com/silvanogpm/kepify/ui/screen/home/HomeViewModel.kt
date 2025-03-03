@@ -2,14 +2,14 @@ package br.com.silvanogpm.kepify.ui.screen.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.silvanogpm.kepify.core.network.service.cep.ViaCepService
+import br.com.silvanogpm.kepify.core.network.service.cep.BrasilApiService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val viaCepService: ViaCepService
+    private val brasilApiService: BrasilApiService
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState = _uiState.asStateFlow()
@@ -29,7 +29,7 @@ class HomeViewModel(
 
             _uiState.update { currentUiState ->
                 try {
-                    val address = viaCepService.getCep(cep = zipCode).toKepifyAddress()
+                    val address = brasilApiService.getCep(cep = zipCode).toKepifyAddress()
 
                     currentUiState.copy(
                         status = HomeUiStateStatus.SUCCESS,

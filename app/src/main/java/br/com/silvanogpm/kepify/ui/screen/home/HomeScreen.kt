@@ -1,5 +1,6 @@
 package br.com.silvanogpm.kepify.ui.screen.home
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -21,11 +22,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
@@ -34,13 +37,18 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import br.com.silvanogpm.kepify.data.model.KepifyAddress
 import br.com.silvanogpm.kepify.ui.component.button.ButtonVariant
 import br.com.silvanogpm.kepify.ui.component.button.KepifyButton
 import br.com.silvanogpm.kepify.ui.component.button.KepifyIconButton
 import br.com.silvanogpm.kepify.ui.component.form.BaseTextField
+import br.com.silvanogpm.kepify.ui.screen.home.component.AddressImagesPager
 import br.com.silvanogpm.kepify.ui.screen.home.component.HomeHero
 import br.com.silvanogpm.kepify.ui.theme.Typography
 import br.com.silvanogpm.kepify.ui.transformation.CepVisualTransformation
+import br.com.silvanogpm.kepify.util.ImageDirection
+import br.com.silvanogpm.kepify.util.getAddressImage
+import br.com.silvanogpm.kepify.util.shareTextAndImage
 
 @Composable
 fun HomeScreen(
@@ -58,11 +66,13 @@ fun HomeScreen(
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .padding(horizontal = 16.dp)
+                .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
                 .verticalScroll(rememberScrollState()),
 
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
+            val context = LocalContext.current
+
             var zipCode by remember(uiState.zipCode) { mutableStateOf(uiState.zipCode ?: "") }
             var state by remember(uiState.state) { mutableStateOf(uiState.state ?: "") }
             var city by remember(uiState.city) { mutableStateOf(uiState.city ?: "") }
@@ -75,6 +85,16 @@ fun HomeScreen(
             var street by remember(uiState.street) { mutableStateOf(uiState.street ?: "") }
 
             val zipCodeIsValid = zipCode.length >= 8
+
+            val formattedAddress = """
+                Aqui os detalhes do meu endereço:
+                
+                CEP: $zipCode
+                Estado: $state
+                Cidade: $city
+                Bairro: $neighborhood
+                Rua: $street
+            """.trimIndent()
 
             fun handleSearchAddress() {
                 if (!zipCodeIsValid) return
@@ -112,7 +132,9 @@ fun HomeScreen(
                     )
 
                     KepifyIconButton(
-                        modifier = Modifier.testTag("Pesquisar").fillMaxHeight(),
+                        modifier = Modifier
+                            .testTag("Pesquisar")
+                            .fillMaxHeight(),
                         shape = RoundedCornerShape(topEnd = 8.dp, bottomEnd = 8.dp),
                         onClick = ::handleSearchAddress,
                         enabled = zipCodeIsValid,
@@ -145,6 +167,22 @@ fun HomeScreen(
 
                 BaseTextField(label = "Rua", value = street, onValueChange = { street = it })
 
+                val address = KepifyAddress(zipCode, state, city, neighborhood, street)
+
+                val images = ImageDirection.entries.map { direction ->
+                    getAddressImage(
+                        address = address,
+                        imageDirection = direction
+                    )
+                }
+
+                var selectedImageIndex by remember { mutableIntStateOf(0) }
+
+                AddressImagesPager(
+                    images = images,
+                    onChangeCurrentPage = { selectedImageIndex = it }
+                )
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
@@ -168,7 +206,13 @@ fun HomeScreen(
                     KepifyButton(
                         modifier = Modifier.weight(1f),
                         text = "Compartilhar",
-                        onClick = {},
+                        onClick = {
+                            shareTextAndImage(
+                                context,
+                                formattedAddress,
+                                Uri.parse(images[selectedImageIndex])
+                            )
+                        },
                         trailingIcon = {
                             Icon(
                                 imageVector = Icons.Default.Share,

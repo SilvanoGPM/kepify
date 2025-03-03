@@ -1,6 +1,9 @@
 package br.com.silvanogpm.kepify.core.network
 
+import br.com.silvanogpm.kepify.core.network.BaseEndpoints.BRASIL_API_BASE_URL
 import br.com.silvanogpm.kepify.core.network.BaseEndpoints.VIA_CEP_BASE_URL
+import br.com.silvanogpm.kepify.core.network.service.cep.BrasilApiService
+import br.com.silvanogpm.kepify.core.network.service.cep.RetrofitBrasilApiService
 import br.com.silvanogpm.kepify.core.network.service.cep.RetrofitViaCepService
 import br.com.silvanogpm.kepify.core.network.service.cep.ViaCepService
 import okhttp3.OkHttpClient
@@ -16,6 +19,11 @@ object RetrofitInstance {
     val viaCepService: ViaCepService by lazy {
         getRetrofitInstance(VIA_CEP_BASE_URL)
             .create(RetrofitViaCepService::class.java)
+    }
+
+    val brasilApiService: BrasilApiService by lazy {
+        getRetrofitInstance(BRASIL_API_BASE_URL)
+            .create(RetrofitBrasilApiService::class.java)
     }
 
     private fun getRetrofitInstance(baseUrl: String) = Retrofit.Builder()

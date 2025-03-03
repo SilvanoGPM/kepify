@@ -1,3 +1,11 @@
+import java.util.Properties
+
+val localProperties = Properties().apply {
+    load(File(rootProject.projectDir, "secret.properties").inputStream())
+}
+
+val googleApiKey = localProperties["GOOGLE_API_KEY"] as String
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -36,6 +44,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "GOOGLE_API_KEY", googleApiKey)
+        }
+
+        debug {
+            buildConfigField("String", "GOOGLE_API_KEY", googleApiKey)
         }
     }
     compileOptions {
@@ -47,13 +60,13 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
 dependencies {
     // Serialization
     implementation(libs.kotlin.serialization)
-
 
     // Retrofit
     implementation(libs.retrofit)
@@ -72,6 +85,11 @@ dependencies {
 
     // Material Theme
     implementation(libs.material.icons.extended)
+    implementation(libs.androidx.material3)
+
+    // Coil
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 
     // Compose
     implementation(libs.androidx.core.ktx)
@@ -83,6 +101,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.foundation.android)
+    implementation(libs.androidx.accompanist.pager.indicators)
 
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)

@@ -6,4 +6,7 @@ data class KepifyAddress(
     val city: String,
     val neighborhood: String,
     val street: String,
-)
+) {
+    override fun toString() =
+        "${this.street}, ${this.neighborhood}, ${this.city}, ${this.state}, Brazil - ${this.zipCode}"
+}

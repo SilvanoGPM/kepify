@@ -4,7 +4,7 @@
 
 [x] - Poder utilizar qualquer lib de requisições (Retrofit ou Ktor)
 [x] - Utilizar o DI do Koin
-[ ] - Melhorar UI
-[ ] - Utilizar Lib para compartilhar os dados do CEP obtidos
-[ ] - Tentar utilizar um mapa com a localização baseada no CEP
+[x] - Melhorar UI
+[x] - Utilizar Lib para compartilhar os dados do CEP obtidos
+[x] - Imagens da rua
 [ ] - Naveção por um menu hamburguer + sheet navigation
