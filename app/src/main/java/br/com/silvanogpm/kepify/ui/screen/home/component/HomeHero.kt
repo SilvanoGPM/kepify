@@ -23,7 +23,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import br.com.silvanogpm.kepify.BuildConfig
 import br.com.silvanogpm.kepify.ui.theme.Green300
 import br.com.silvanogpm.kepify.ui.theme.Green500
 import br.com.silvanogpm.kepify.ui.theme.GreenAccent100
@@ -39,7 +38,7 @@ fun HomeHero(modifier: Modifier = Modifier) {
             .height(350.dp)
             .offset(y = -(32).dp)
             .background(
-                brush = Brush.linearGradient(listOf(GreenAccent700, Green500, Green300,))
+                brush = Brush.linearGradient(listOf(GreenAccent700, Green500, Green300))
             )
             .padding(horizontal = 32.dp),
         verticalArrangement = Arrangement.Center,
