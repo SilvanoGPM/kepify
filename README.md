@@ -36,6 +36,12 @@ O projeto utiliza diversas tecnologias para oferecer uma experiência otimizada:
 - Interface intuitiva e responsiva
 - Compartilhamento das informações
 
+## Imagens :framed_picture:
+
+<img src="https://github.com/user-attachments/assets/b77f96d8-6ea7-46b2-ae83-37b591b5da6d" alt="Tela inicial" width=270 />
+<img src="https://github.com/user-attachments/assets/6a8ca07f-ccf2-4041-8320-d634a58aa4db" alt="Tela inicial depois de preencher o CEP (inicio)" width=270 />
+<img src="https://github.com/user-attachments/assets/dfbab63d-dc8a-4da7-a46f-df4c900de46b" alt="Tela inicial depois de preencher o CEP (fim)" width=270 />
+
 ## Como executar :rocket:
 
 ### Pré-requisitos:
