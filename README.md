@@ -43,15 +43,17 @@ O projeto utiliza diversas tecnologias para oferecer uma experiência otimizada:
 - Android Studio instalado (versão mais recente recomendada)
 - Kotlin configurado
 - Emulador ou dispositivo Android conectado
+- Chave de API do Google Maps (para pesquisar imagens das ruas)
 
 ### Passos:
 
 1. Clone este repositório:
    ```sh
-   git clone https://github.com/seu-usuario/kepify.git
+   git clone https://github.com/SilvanoGPM/kepify.git
    ```
 2. Abra o projeto no Android Studio
-3. Construa e execute o aplicativo no emulador ou dispositivo
+3. Crie na raiz do projeto o arquivo `secret.properties` e adicone a linha: `GOOGLE_API_KEY="SUA_API_KEY"`
+4. Construa e execute o aplicativo no emulador ou dispositivo
 
 ## Contribuição :handshake:
 
